@@ -44,6 +44,18 @@ const products = [
       { label: "XL", value: "XL" },
     ],
   },
+  // Thêm Giáp Thân vào mảng products
+  {
+    name: "Giáp Thân",
+    price: 210000,
+    type: "size",
+    options: [
+      { label: "S", value: "S" },
+      { label: "M", value: "M" },
+      { label: "L", value: "L" },
+      { label: "XL", value: "XL" },
+    ],
+  },
   {
     name: "Đai Taekwondo",
     price: 25000,
