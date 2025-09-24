@@ -49,49 +49,69 @@ header p.welcome {
   color: #444;
 }
 
-/* Sản phẩm */
-.product-list {
+/* Bố cục chính */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 20px;
-  margin-top: 20px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+@media (min-width: 768px) {
+  .main-content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Lưới sản phẩm */
+.product-grid {
+  flex: 2; /* Chiếm 2/3 không gian trên màn hình lớn */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0;
 }
 .product {
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ccc;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  border: 2px solid #fff;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-.product:last-child {
-  border-bottom: none;
+.product:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  border: 2px solid #d32f2f;
 }
 .product strong {
-  font-size: 18px;
-  display: block;
-  margin-bottom: 8px;
+  color: #d32f2f;
+  font-size: 20px;
 }
 .product label {
-  margin-right: 15px;
-  font-size: 14px;
+  display: block;
+  margin: 10px 0;
 }
 .product select,
 .product input[type="number"] {
-  padding: 4px 6px;
-  margin-left: 5px;
-  font-size: 14px;
-  border-radius: 3px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
   border: 1px solid #ccc;
-  width: 80px;
+  border-radius: 4px;
 }
 .product button {
-  padding: 6px 14px;
+  width: 100%;
+  padding: 10px;
   background: #d32f2f;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
+  margin-top: 10px;
 }
 .product button:hover {
   background: #000;
@@ -102,11 +122,17 @@ header p.welcome {
 
 /* Giỏ hàng */
 .cart {
+  flex: 1; /* Chiếm 1/3 không gian trên màn hình lớn */
   padding: 20px;
-  margin: 20px auto 40px auto;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+@media (min-width: 768px) {
+  .cart {
+    position: sticky;
+    top: 20px;
+  }
 }
 .cart h2 {
   margin-top: 0;
@@ -242,27 +268,4 @@ footer {
   color: #444;
   font-style: italic;
   width: 100%;
-}
-
-/* Responsive mobile */
-@media (max-width: 600px) {
-  header h1 {
-    font-size: 26px;
-  }
-  header p.slogan {
-    font-size: 16px;
-  }
-  .product strong {
-    font-size: 16px;
-  }
-  .cart h2 {
-    font-size: 20px;
-  }
-  .cart table {
-    font-size: 12px;
-  }
-  .cart button.checkout-button {
-    font-size: 14px;
-    padding: 10px;
-  }
 }

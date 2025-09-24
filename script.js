@@ -1,6 +1,5 @@
 let cart = [];
 
-// Dữ liệu sản phẩm được tách riêng
 const products = [
   {
     name: "Võ phục Vải Sọc Taekwondo",
@@ -70,8 +69,7 @@ function setupEventListeners() {
   document
     .querySelector(".checkout-button")
     .addEventListener("click", placeOrder);
-
-  document.querySelector(".product-list").addEventListener("click", (event) => {
+  document.querySelector(".product-grid").addEventListener("click", (event) => {
     if (event.target.classList.contains("add-to-cart-btn")) {
       const productDiv = event.target.closest(".product");
       const productName = productDiv.dataset.name;
@@ -94,7 +92,7 @@ function setupEventListeners() {
   });
 
   document
-    .querySelector(".product-list")
+    .querySelector(".product-grid")
     .addEventListener("change", (event) => {
       if (event.target.classList.contains("size-select")) {
         updatePrice(event.target);
@@ -117,15 +115,18 @@ function setupEventListeners() {
 }
 
 function renderProducts() {
-  const productList = document.querySelector(".product-list");
-  productList.innerHTML = "";
+  const productGrid = document.querySelector(".product-grid");
+  productGrid.innerHTML = "";
 
   products.forEach((product) => {
     const productDiv = document.createElement("div");
     productDiv.className = "product";
     productDiv.dataset.name = product.name;
 
-    let optionsHtml = product.options
+    let optionsHtml = `<option value="">--Chọn ${
+      product.type === "size" ? "size" : "màu"
+    }--</option>`;
+    optionsHtml += product.options
       .map(
         (opt) =>
           `<option value="${opt.value}" data-price="${opt.price || ""}">${
@@ -135,22 +136,19 @@ function renderProducts() {
       .join("");
 
     productDiv.innerHTML = `
-      <strong>${product.name}</strong><br />
-      <label>${product.type === "size" ? "Size" : "Màu"}:
-        <select class="size-select">
-          <option value="">--Chọn ${
-            product.type === "size" ? "size" : "màu"
-          }--</option>
-          ${optionsHtml}
-        </select>
-      </label>
-      <span class="price-display"></span>
-      <label>Số lượng:
-        <input type="number" class="qty-input" value="1" min="1" />
-      </label>
-      <button class="add-to-cart-btn">Thêm vào giỏ</button>
-    `;
-    productList.appendChild(productDiv);
+            <strong>${product.name}</strong><br />
+            <label>${product.type === "size" ? "Size" : "Màu"}:
+                <select class="size-select">
+                    ${optionsHtml}
+                </select>
+            </label>
+            <span class="price-display"></span>
+            <label>Số lượng:
+                <input type="number" class="qty-input" value="1" min="1" />
+            </label>
+            <button class="add-to-cart-btn">Thêm vào giỏ</button>
+        `;
+    productGrid.appendChild(productDiv);
   });
 }
 
@@ -192,17 +190,17 @@ function addToCart(name, price, size, qty) {
 function renderCart() {
   const table = document.getElementById("cartTable");
   let tableHTML = `
-    <thead>
-      <tr>
-        <th>Sản phẩm</th>
-        <th>Size/Màu</th>
-        <th>Số lượng</th>
-        <th>Thành tiền</th>
-        <th>Xóa</th>
-      </tr>
-    </thead>
-    <tbody>
-  `;
+        <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Size/Màu</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th>Xóa</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
   let total = 0;
 
   if (cart.length === 0) {
@@ -210,27 +208,27 @@ function renderCart() {
   } else {
     cart.forEach((item, index) => {
       tableHTML += `<tr>
-          <td>${item.name}</td>
-          <td>${item.size}</td>
-          <td><input type="number" class="qty-input-cart" data-index="${index}" value="${
+                <td>${item.name}</td>
+                <td>${item.size}</td>
+                <td><input type="number" class="qty-input-cart" data-index="${index}" value="${
         item.qty
       }" min="1"></td>
-          <td>${(item.price * item.qty).toLocaleString()}đ</td>
-          <td><button class="remove-item-btn" data-index="${index}">🗑</button></td>
-        </tr>`;
+                <td>${(item.price * item.qty).toLocaleString()}đ</td>
+                <td><button class="remove-item-btn" data-index="${index}">🗑</button></td>
+            </tr>`;
       total += item.price * item.qty;
     });
   }
 
   tableHTML += `
-    </tbody>
-    <tfoot>
-      <tr class="cart-total-row">
-        <td colspan="3" style="text-align:right;">Tổng cộng:</td>
-        <td colspan="2" style="text-align:left;">${total.toLocaleString()}đ</td>
-      </tr>
-    </tfoot>
-  `;
+        </tbody>
+        <tfoot>
+            <tr class="cart-total-row">
+                <td colspan="3" style="text-align:right;">Tổng cộng:</td>
+                <td colspan="2" style="text-align:left;">${total.toLocaleString()}đ</td>
+            </tr>
+        </tfoot>
+    `;
   table.innerHTML = tableHTML;
 }
 
@@ -267,43 +265,54 @@ function placeOrder() {
       clearInterval(timer);
       countdown.innerHTML = "<h2>💥 Cú đá quyết định đã được tung ra!</h2>";
 
-      let result = "<div class='success'>✅ ĐẶT HÀNG THÀNH CÔNG</div><br>";
-      result +=
-        "<table border='1' style='width:100%; border-collapse:collapse;'><thead><tr><th>Sản phẩm</th><th>Size/Màu</th><th>SL</th><th>Thành tiền</th></tr></thead><tbody>";
-      let total = 0;
-      cart.forEach((item) => {
-        result += `<tr><td>${item.name}</td><td>${item.size}</td><td>${
-          item.qty
-        }</td><td>${(item.price * item.qty).toLocaleString()}đ</td></tr>`;
-        total += item.price * item.qty;
-      });
-      result += `</tbody><tfoot><tr><td colspan='3' style='text-align:right;font-weight:bold;'>Tổng cộng:</td><td><b>${total.toLocaleString()}đ</b></td></tr></tfoot></table>`;
-      orderResult.innerHTML = result;
+      // Lấy URL của Apps Script đã copy ở bước trước
+      const googleSheetUrl =
+        "https://script.google.com/macros/s/AKfycbwHopZSGmffXCeAUTOgJHMZPh4Q4pZbpAHuEiDQrLQHYbWfJnmPnOjEmOYomEleR7gPxQ/exec";
 
-      fetch("", {
+      // Dữ liệu cần gửi
+      const orderData = {
+        cart: cart,
+        total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
+      };
+
+      // Gửi dữ liệu đến Google Sheet
+      fetch(googleSheetUrl, {
         method: "POST",
-        mode: "cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ cart, total }),
+        mode: "no-cors",
+        cache: "no-cache",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
       })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === "success") {
-            console.log("✅ Đã gửi dữ liệu thành công!");
-          } else {
-            console.error("❌ Lỗi từ server:", data.message);
-          }
-        })
-        .catch((err) => {
-          console.error("❌ Lỗi gửi dữ liệu:", err);
-        });
+        .then(() => {
+          // Phản hồi thành công
+          console.log("✅ Dữ liệu đã được gửi thành công!");
+          let result = "<div class='success'>✅ ĐẶT HÀNG THÀNH CÔNG</div><br>";
+          result +=
+            "<table border='1' style='width:100%; border-collapse:collapse;'><thead><tr><th>Sản phẩm</th><th>Size/Màu</th><th>SL</th><th>Thành tiền</th></tr></thead><tbody>";
+          let total = 0;
+          cart.forEach((item) => {
+            result += `<tr><td>${item.name}</td><td>${item.size}</td><td>${
+              item.qty
+            }</td><td>${(item.price * item.qty).toLocaleString()}đ</td></tr>`;
+            total += item.price * item.qty;
+          });
+          result += `</tbody><tfoot><tr><td colspan='3' style='text-align:right;font-weight:bold;'>Tổng cộng:</td><td><b>${total.toLocaleString()}đ</b></td></tr></tfoot></table>`;
+          orderResult.innerHTML = result;
 
-      cart = [];
-      saveCart();
-      renderCart();
-      setTimeout(() => {
-        document.getElementById("overlay").style.display = "none";
-      }, 4000);
+          cart = [];
+          saveCart();
+          renderCart();
+          setTimeout(() => {
+            document.getElementById("overlay").style.display = "none";
+          }, 4000);
+        })
+        .catch((error) => {
+          console.error("❌ Lỗi khi gửi dữ liệu:", error);
+          alert("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+          document.getElementById("overlay").style.display = "none";
+        });
     }
   }, 1000);
 }
