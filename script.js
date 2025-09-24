@@ -262,6 +262,14 @@ function placeOrder() {
     alert("Giỏ hàng trống!");
     return;
   }
+
+  const customerName = document.getElementById("customerName").value;
+
+  if (!customerName) {
+    alert("Vui lòng nhập Họ và Tên!");
+    return;
+  }
+
   document.getElementById("overlay").style.display = "flex";
   let count = 3;
   const countdown = document.getElementById("countdown");
@@ -277,17 +285,15 @@ function placeOrder() {
       clearInterval(timer);
       countdown.innerHTML = "<h2>💥 Cú đá quyết định đã được tung ra!</h2>";
 
-      // Lấy URL của Apps Script đã copy ở bước trước
       const googleSheetUrl =
-        "https://script.google.com/macros/s/AKfycbwHopZSGmffXCeAUTOgJHMZPh4Q4pZbpAHuEiDQrLQHYbWfJnmPnOjEmOYomEleR7gPxQ/exec";
+        "https://script.google.com/macros/s/AKfycbzwkGtYcqNvW3O0nRQ9rmqghm7epJ3pTg31zwcy25ToUQhtNcjEnOWJ1MlSO6Zhnz6I3g/exec";
 
-      // Dữ liệu cần gửi
       const orderData = {
+        customerName: customerName,
         cart: cart,
         total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
       };
 
-      // Gửi dữ liệu đến Google Sheet
       fetch(googleSheetUrl, {
         method: "POST",
         mode: "no-cors",
@@ -298,9 +304,11 @@ function placeOrder() {
         body: JSON.stringify(orderData),
       })
         .then(() => {
-          // Phản hồi thành công
           console.log("✅ Dữ liệu đã được gửi thành công!");
           let result = "<div class='success'>✅ ĐẶT HÀNG THÀNH CÔNG</div><br>";
+          result += "<h4>Thông tin người đặt:</h4>";
+          result += `<p><strong>Tên:</strong> ${customerName}</p>`;
+          result += "<h4>Chi tiết đơn hàng:</h4>";
           result +=
             "<table border='1' style='width:100%; border-collapse:collapse;'><thead><tr><th>Sản phẩm</th><th>Size/Màu</th><th>SL</th><th>Thành tiền</th></tr></thead><tbody>";
           let total = 0;
