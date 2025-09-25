@@ -44,18 +44,6 @@ const products = [
       { label: "XL", value: "XL" },
     ],
   },
-  // Thêm Giáp Thân vào mảng products
-  {
-    name: "Giáp Thân",
-    price: 210000,
-    type: "size",
-    options: [
-      { label: "S", value: "S" },
-      { label: "M", value: "M" },
-      { label: "L", value: "L" },
-      { label: "XL", value: "XL" },
-    ],
-  },
   {
     name: "Đai Taekwondo",
     price: 25000,
@@ -67,6 +55,17 @@ const products = [
       { label: "Đỏ", value: "Đỏ" },
       { label: "Cam", value: "Cam" },
       { label: "Tím", value: "Tím" },
+    ],
+  },
+  {
+    name: "Giáp Thân",
+    price: 220000,
+    type: "size",
+    options: [
+      { label: "S", value: "S" },
+      { label: "M", value: "M" },
+      { label: "L", value: "L" },
+      { label: "XL", value: "XL" },
     ],
   },
 ];
@@ -264,7 +263,6 @@ function placeOrder() {
   }
 
   const customerName = document.getElementById("customerName").value;
-
   if (!customerName) {
     alert("Vui lòng nhập Họ và Tên!");
     return;
@@ -286,7 +284,7 @@ function placeOrder() {
       countdown.innerHTML = "<h2>💥 Cú đá quyết định đã được tung ra!</h2>";
 
       const googleSheetUrl =
-        "https://script.google.com/macros/s/AKfycbzwkGtYcqNvW3O0nRQ9rmqghm7epJ3pTg31zwcy25ToUQhtNcjEnOWJ1MlSO6Zhnz6I3g/exec";
+        "https://script.google.com/macros/s/AKfycbxHZzj65J-xsZ_82Ypsk2JkUUOKqhEaVqLFbGIe3P6ltL8bvOzCcYElnPfxV80CW7OY0w/exec";
 
       const orderData = {
         customerName: customerName,

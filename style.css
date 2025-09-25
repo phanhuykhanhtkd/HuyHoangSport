@@ -8,6 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box;
 }
 .page-container {
   width: 100%;
@@ -20,6 +21,22 @@ header {
   padding: 20px;
   background: #fff;
   border-bottom: 3px solid #d32f2f;
+  background-image: url("anh.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  z-index: 1;
+}
+header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: -1;
 }
 .logo {
   max-width: 250px;
@@ -28,6 +45,7 @@ header {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  mix-blend-mode: screen;
 }
 header h1 {
   font-size: 40px;
@@ -55,6 +73,7 @@ header p.welcome {
   flex-direction: column;
   gap: 20px;
   padding: 20px;
+  width: 100%;
 }
 @media (min-width: 768px) {
   .main-content {
@@ -65,7 +84,7 @@ header p.welcome {
 
 /* Lưới sản phẩm */
 .product-grid {
-  flex: 2; /* Chiếm 2/3 không gian trên màn hình lớn */
+  flex: 2;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
@@ -122,7 +141,7 @@ header p.welcome {
 
 /* Giỏ hàng */
 .cart {
-  flex: 1; /* Chiếm 1/3 không gian trên màn hình lớn */
+  flex: 1;
   padding: 20px;
   background: #fff;
   border-radius: 8px;
@@ -268,4 +287,14 @@ footer {
   color: #444;
   font-style: italic;
   width: 100%;
+}
+
+/* Điều chỉnh cho mobile */
+@media (max-width: 767px) {
+  .product select,
+  .product input[type="number"],
+  #customerName {
+    font-size: 16px;
+    padding: 12px;
+  }
 }
