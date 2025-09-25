@@ -64,12 +64,18 @@ header p.slogan {
 header p.welcome {
   margin-top: 10px;
   font-style: italic;
-  font-size: 20px; /* Tăng kích thước chữ */
-  font-weight: bold; /* In đậm chữ */
-  color: #fff; /* Đổi màu chữ sang trắng */
-  text-shadow: 2px 2px 4px #000; /* Thêm hiệu ứng đổ bóng cho chữ */
-  animation: fadeIn 2s ease-in-out forwards; /* Thêm hiệu ứng xuất hiện từ từ */
-  opacity: 0; /* Ban đầu ẩn chữ */
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 8px #000; /* Dùng đổ bóng lớn hơn */
+
+  /* Thêm lớp nền bán trong suốt */
+  background-color: rgba(0, 0, 0, 0.3); /* Màu đen trong suốt 30% */
+  padding: 5px 10px; /* Thêm khoảng đệm */
+  border-radius: 5px; /* Bo tròn góc */
+
+  animation: fadeIn 2s ease-in-out forwards;
+  opacity: 0;
 }
 
 @keyframes fadeIn {
