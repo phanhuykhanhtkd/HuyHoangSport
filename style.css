@@ -67,15 +67,20 @@ header p.welcome {
   font-size: 20px;
   font-weight: bold;
   color: #fff;
-  text-shadow: 0 0 8px #000; /* Dùng đổ bóng lớn hơn */
-
-  /* Thêm lớp nền bán trong suốt */
-  background-color: rgba(0, 0, 0, 0.3); /* Màu đen trong suốt 30% */
-  padding: 5px 10px; /* Thêm khoảng đệm */
-  border-radius: 5px; /* Bo tròn góc */
-
+  text-shadow: 0 0 8px #000; /* Chỉ giữ lại hiệu ứng đổ bóng */
   animation: fadeIn 2s ease-in-out forwards;
   opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeIn {
