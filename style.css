@@ -64,7 +64,23 @@ header p.slogan {
 header p.welcome {
   margin-top: 10px;
   font-style: italic;
-  color: #444;
+  font-size: 20px; /* Tăng kích thước chữ */
+  font-weight: bold; /* In đậm chữ */
+  color: #fff; /* Đổi màu chữ sang trắng */
+  text-shadow: 2px 2px 4px #000; /* Thêm hiệu ứng đổ bóng cho chữ */
+  animation: fadeIn 2s ease-in-out forwards; /* Thêm hiệu ứng xuất hiện từ từ */
+  opacity: 0; /* Ban đầu ẩn chữ */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Bắt đầu từ dưới lên */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Kết thúc ở vị trí ban đầu */
+  }
 }
 
 /* Bố cục chính */
