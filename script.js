@@ -284,7 +284,7 @@ function placeOrder() {
       countdown.innerHTML = "<h2>💥 Cú đá quyết định đã được tung ra!</h2>";
 
       const googleSheetUrl =
-        "https://script.google.com/macros/s/AKfycbxHZzj65J-xsZ_82Ypsk2JkUUOKqhEaVqLFbGIe3P6ltL8bvOzCcYElnPfxV80CW7OY0w/exec";
+        "https://script.google.com/macros/s/AKfycbyvk8Gyd7BzbCK29BMeam6UshXGdOoZ3-0oQWEj_jYNzvHmqKpZ2-TPLMtbP1JfkCWg9w/exec";
 
       const orderData = {
         customerName: customerName,
@@ -319,9 +319,13 @@ function placeOrder() {
           result += `</tbody><tfoot><tr><td colspan='3' style='text-align:right;font-weight:bold;'>Tổng cộng:</td><td><b>${total.toLocaleString()}đ</b></td></tr></tfoot></table>`;
           orderResult.innerHTML = result;
 
+          // Reset mọi thứ sau khi đặt hàng thành công
           cart = [];
           saveCart();
           renderCart();
+          document.getElementById("customerName").value = ""; // Xóa tên khách hàng
+          renderProducts(); // Dòng này sẽ reset lại danh sách sản phẩm
+
           setTimeout(() => {
             document.getElementById("overlay").style.display = "none";
           }, 4000);
